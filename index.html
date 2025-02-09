@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartFridge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9fafb;
+      color: #333;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin: 1rem 0;
+      color: #2563eb;
+    }
+
+    h6 {
+      font-size: 1.2rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #4b5563;
+    }
+
+    a {
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: 600;
+      margin: 0 10px;
+      transition: color 0.2s;
+    }
+
+    a:hover {
+      color: #1e40af;
+    }
+
+    .links {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    table {
+      width: 90%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    th {
+      background-color: #f3f4f6;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    td {
+      color: #4b5563;
+    }
+
+    tr.expired {
+      background-color: #fecaca;
+      color: #991b1b;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .filter-input, 
+    .filter-date-start, 
+    .filter-date-end, 
+    .filter-number-start, 
+    .filter-number-end {
+      width: 95%;
+      padding: 0.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      outline: none;
+      font-size: 1rem;
+      background: #f9fafb;
+      transition: border-color 0.2s;
+    }
+
+    .filter-input:focus, 
+    .filter-date-start:focus, 
+    .filter-date-end:focus, 
+    .filter-number-start:focus, 
+    .filter-number-end:focus {
+      border-color: #2563eb;
+    }
+
+    .filter-range {
+      display: block;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    button {
+      background-color: #ef4444;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #dc2626;
+    }
+
+    button:focus {
+      outline: none;
+    }
+
+    footer {
+      text-align: center;
+      margin: 2rem 0;
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+
+    @media (max-width: 768px) {
+      th, td {
+        padding: 0.5rem;
+      }
+
+      .filter-input,
+      .filter-date-start,
+      .filter-date-end,
+      .filter-number-start,
+      .filter-number-end {
+        width: 100%;
+      }
+
+      table {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>SmartFridge - проект для автоматизации работы холодильника</h1>
+  <div class="links">
+    <a href="/add_info">Добавленные продукты</a>
+    <a href="/delete_info">Удаленные продукты</a>
+  </div>
+  <h6>Содержимое холодильника</h6>
+  <table id="fridgeTable">
+    <thead>
+      <tr>
+        <th>Наименование <br><input type="text" class="filter-input" data-column="0" placeholder="Фильтр..."></th>
+        <th>Категория <br><input type="text" class="filter-input" data-column="1" placeholder="Фильтр..."></th>
+        <th>Дата изготовления <br>
+          <div class="filter-range">
+            <div>
+              <input type="date" class="filter-date-start" data-column="2" placeholder="От...">
+            </div>
+            </div>
+              <input type="date" class="filter-date-end" data-column="2" placeholder="До...">
+            </div>
+          </div>
+        </th>
+        <th>Дата срока годности <br>
+          <div class="filter-range">
+              <input type="date" class="filter-date-start" data-column="3" placeholder="От...">
+              <input type="date" class="filter-date-end" data-column="3" placeholder="До...">
+          </div>
+        </th>
+        <th>Количество масса/объем <br>
+          <div class="filter-range">
+            <input type="number" class="filter-number-start" data-column="4" placeholder="От...">
+            <input type="number" class="filter-number-end" data-column="4" placeholder="До...">
+          </div>
+        </th>
+        <th>Единицы измерения</th>
+        <th>Пищевая ценность <br>
+          <div class="filter-range">
+            <input type="number" class="filter-number-start" data-column="6" placeholder="От...">
+            <input type="number" class="filter-number-end" data-column="6" placeholder="До...">
+          </div>
+        </th>
+        <th>Единицы пищевой ценности</th>
+        <th>Количество продукта <br>
+          <div class="filter-range">
+            <input type="number" class="filter-number-start" data-column="8" placeholder="От...">
+            <input type="number" class="filter-number-end" data-column="8" placeholder="До...">
+          </div>
+        </th>
+        <th>Единицы измерения продукта</th>
+        <th>Удалить</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in frige_list %}
+      <tr class="{% if item.product.date_exp < now %}expired {% endif %}">
+        <td>{{item.product.name}}</td>
+        <td>{{item.product.category}}</td>
+        <td>{{item.product.date_man}}</td>
+        <td>{{item.product.date_exp}}</td>
+        <td>{{item.product.quantity}}</td>
+        <td>{{item.product.quantity_unit}}</td>
+        <td>{{item.product.nutritional_values}}</td>
+        <td>{{item.product.nutritional_values_unit}}</td>
+        <td>{{item.product.count}}</td>
+        <td>{{item.product.count_unit}}</td>
+        <td>
+          <form action="/delete" method="post" style="display: inline;">
+            <input value={{item.product.id}} id="product_id" name="product_id" type="hidden">
+            <button type="submit">Удалить</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <footer>SmartFridge © 2025</footer>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const filterInputs = document.querySelectorAll(".filter-input");
+      const filterDateStart = document.querySelectorAll(".filter-date-start");
+      const filterDateEnd = document.querySelectorAll(".filter-date-end");
+      const filterNumberStart = document.querySelectorAll(".filter-number-start");
+      const filterNumberEnd = document.querySelectorAll(".filter-number-end");
+
+      function filterTable() {
+        const table = document.getElementById("fridgeTable");
+        const rows = table.querySelectorAll("tbody tr");
+
+        rows.forEach(row => {
+          let shouldDisplay = true;
+
+          filterInputs.forEach(input => {
+            const column = parseInt(input.dataset.column, 10);
+            const filterValue = input.value.toLowerCase();
+            const cell = row.cells[column];
+            const cellText = cell ? cell.textContent.toLowerCase() : "";
+
+            if (filterValue && !cellText.includes(filterValue)) {
+              shouldDisplay = false;
+            }
+          });
+
+          filterDateStart.forEach(input => {
+          const column = parseInt(input.dataset.column, 10);
+          const startDate = new Date(input.value);
+          const endDate = new Date(document.querySelector(`.filter-date-end[data-column='${column}']`).value);
+          const cell = row.cells[column];
+          const cellText = cell ? cell.textContent : "";
+
+          const [day, month, year] = cellText.split(".");
+          const cellDate = cellText ? new Date(`${month}-${day}-${year}`) : null;
+
+          if (cellDate) {
+            if (!isNaN(startDate) && cellDate < startDate) {
+              shouldDisplay = false;
+            }
+            if (!isNaN(endDate) && cellDate > endDate) {
+              shouldDisplay = false;
+            }
+          }
+        });
+
+          filterNumberStart.forEach(input => {
+            const column = parseInt(input.dataset.column, 10);
+            const startNumber = parseFloat(input.value);
+            const endNumber = parseFloat(document.querySelector(`.filter-number-end[data-column='${column}']`).value);
+            const cell = row.cells[column];
+            const cellNumber = cell ? parseFloat(cell.textContent) : NaN;
+
+            if (!isNaN(cellNumber)) {
+              if (!isNaN(startNumber) && cellNumber < startNumber) {
+                shouldDisplay = false;
+              }
+              if (!isNaN(endNumber) && cellNumber > endNumber) {
+                shouldDisplay = false;
+              }
+            }
+          });
+
+          row.style.display = shouldDisplay ? "" : "none";
+        });
+      }
+
+      filterInputs.forEach(input => input.addEventListener("input", filterTable));
+      filterDateStart.forEach(input => input.addEventListener("change", filterTable));
+      filterDateEnd.forEach(input => input.addEventListener("change", filterTable));
+      filterNumberStart.forEach(input => input.addEventListener("input", filterTable));
+      filterNumberEnd.forEach(input => input.addEventListener("input", filterTable));
+    });
+  </script>
+
+</html>

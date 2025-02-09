@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartFridge</title>
+    <style>
+        * {
+            font-size: 1.1em;
+        }
+
+        h1 {
+            font-size: 3em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>SmartFridge - проект для автоматизации работы холодильника</h1>
+    <h6>Добавленные продукты</h6>
+    <!-- <a href="/info">inforamtion</a> -->
+    <table border="1" align="center">
+        <tr>
+            <td>Наименование</td>
+            <td>Категория</td>
+            <td>дата изготовления</td>
+            <td>дата срока годности</td>
+            <td>количество масса/объем</td>
+            <td>еденицы измерения масса/объем</td>
+            <td>пищевая ценность</td>
+            <td>еденицы измерения пищевой ценности</td>
+            <td>количество продукта штуки</td>
+            <td>еденицы измерения количества продукта штук</td>
+
+        </tr>
+        {% for item in data_list %}
+        <tr>
+            <td>{{item.product.name}}</td>
+            <td>{{item.product.category}}</td>
+            <td>{{item.product.date_man}}</td>
+            <td>{{item.product.date_exp}}</td>
+            <td>{{item.product.quantity}}</td>
+            <td>{{item.product.quantity_unit}}</td>
+            <td>{{item.product.nutritional_values}}</td>
+            <td>{{item.product.nutritional_values_unit}}</td>
+            <td>{{item.product.count}}</td>
+            <td>{{item.product.count_unit}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>

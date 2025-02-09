@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartFridge</title>
+    <style>
+        * {
+            font-size: 1.1em;
+        }
+
+        h1 {
+            font-size: 3em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Информация о продукте</h1>
+    {% for key, value in product_data.items() %}
+    <p>{{key}}: {{value}}</p>
+    {% endfor %}
+
+    {% if existing_product_fridge %}
+    <form action="/delete" , method="post" , style="display: inline;">
+        <input value={{existing_product_fridge}} , id="product_id" , name="product_id" , type="hidden">
+        <button type="submit"> Удалить </button>
+    </form>
+    {% endif %}
+    <form action="/add" , method="post" , style="display: inline;">
+        <input value={{product_id}} , id="product_id" , name="product_id" , type="hidden">
+        <button type="submit"> Добавить </button>
+    </form>
+
+</body>
+
+</html>
